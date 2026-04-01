@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ukrainian Village Names — Historical Map</title>
+  <meta name="description" content="Interactive historical map showing how Ukrainian village and city names changed over time." />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Header ──────────────────────────────────────────── -->
+  <header id="header">
+    <div id="header-text">
+      <div id="site-title">Chronicles of Ukrainian Place Names</div>
+      <div id="site-subtitle">An Interactive Historical Cartography</div>
+    </div>
+  </header>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <div id="main">
+
+    <!-- ── Sidebar ─────────────────────────────────────── -->
+    <aside id="sidebar">
+
+      <!-- Year control -->
+      <div class="sidebar-section">
+        <div class="section-title">Year</div>
+
+        <div id="year-display">
+          <div id="year-value">1938</div>
+          <div id="year-era">Soviet Era</div>
+        </div>
+
+        <input id="year-slider" type="range" min="1938" max="2020" value="1938"
+               aria-label="Select year" />
+
+        <div class="year-range-labels">
+          <span id="year-min">1938</span>
+          <span id="year-max">2020</span>
+        </div>
+
+        <button id="play-btn" type="button" aria-label="Animate through years">
+          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+            <polygon points="1,1 11,6 1,11" fill="currentColor"/>
+          </svg>
+          Animate
+        </button>
+
+        <!-- Quick stats -->
+        <div id="stats" style="margin-top:12px">
+          <div class="stat-box">
+            <div class="stat-num" id="stat-total">0</div>
+            <div class="stat-lbl">Shown</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num" id="stat-renamed">0</div>
+            <div class="stat-lbl">Renamed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category filters -->
+      <div class="sidebar-section">
+        <div class="section-title">Category</div>
+        <div id="cat-filters"></div>
+      </div>
+
+      <!-- Village list -->
+      <div class="sidebar-section" style="padding:0; flex:1; overflow-y:auto;">
+        <div class="section-title" style="padding:14px 16px 0; margin-bottom:8px;">Settlements</div>
+        <div id="village-list"></div>
+      </div>
+
+    </aside>
+
+    <!-- ── Map ────────────────────────────────────────────── -->
+    <div id="map-wrap">
+      <div id="map"></div>
+
+      <!-- Year badge overlay -->
+      <div id="map-year-badge" aria-live="polite" aria-atomic="true">
+        <div class="badge-year" id="badge-year">1938</div>
+        <div class="badge-label">A.D.</div>
+      </div>
+
+      <!-- Legend -->
+      <div id="legend" role="complementary" aria-label="Map legend">
+        <div class="legend-title">Legend</div>
+        <div id="legend-body"></div>
+        <div class="legend-status-row">
+          <span style="color:var(--red-wax); font-size:1rem">●</span>
+          <span>Renamed</span>
+        </div>
+        <div class="legend-status-row">
+          <span style="color:var(--accent-blue); font-size:.85rem">●</span>
+          <span style="font-style:italic">Pending rename</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /#main -->
+</div><!-- /#app -->
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WPaA=" crossorigin=""></script>
+
+<!-- Data -->
+<script src="data.js"></script>
+
+<!-- App logic -->
+<script src="app.js"></script>
+
+</body>
+</html>

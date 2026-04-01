@@ -283,8 +283,8 @@ function updateStats() {
 
 // ── Year display ──────────────────────────────────────────────────────────────
 function updateYearDisplay(year) {
-  yearValueEl.textContent = year;
-  badgeYearEl.textContent = year;
+  if (yearValueEl) yearValueEl.textContent = year;
+  if (badgeYearEl) badgeYearEl.textContent = year;
 
   // Era label
   let era = '';
@@ -295,7 +295,7 @@ function updateYearDisplay(year) {
   else if (year < 1991)   era = 'Late Soviet Era';
   else if (year < 2014)   era = 'Independent Ukraine';
   else                    era = 'Modern Ukraine';
-  yearEraEl.textContent = era;
+  if (yearEraEl) yearEraEl.textContent = era;
 
   // Slider fill % via CSS custom property
   const pct = ((year - ALL_YEARS.min) / (ALL_YEARS.max - ALL_YEARS.min) * 100).toFixed(1);

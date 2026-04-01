@@ -82,6 +82,7 @@ html, body {
 .sidebar-section:last-child { border-bottom: none; flex: 1; overflow-y: auto; }
 
 .sidebar-year {
+  /* Legacy sidebar year block is intentionally hidden; map-year-badge is the single visible year label. */
   display: none;
 }
 
@@ -99,34 +100,6 @@ html, body {
 }
 .section-title::before,
 .section-title::after { content: ''; flex: 1; height: 1px; background: var(--gold); opacity: .3; }
-
-/* ── Year panel ──────────────────────────────── */
-#year-display {
-  position: absolute;
-  left: 50%;
-  bottom: 114px;
-  transform: translateX(-50%);
-  z-index: 930;
-  text-align: center;
-  pointer-events: none;
-}
-
-#year-value {
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffe7c4;
-  line-height: 1;
-  text-shadow: 0 2px 8px rgba(0,0,0,.45);
-}
-
-#year-era {
-  font-family: 'EB Garamond', serif;
-  font-style: italic;
-  font-size: .76rem;
-  color: rgba(255,233,198,.86);
-  opacity: .95;
-}
 
 #play-btn {
   position: absolute;
@@ -195,9 +168,9 @@ html, body {
 #cat-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 10px 12px 12px;
-  background: rgba(54, 34, 18, .92);
+  gap: 6px;
+  padding: 7px 10px;
+  background: transparent;
 }
 
 .cat-btn {
@@ -483,13 +456,13 @@ html, body {
   transform: translateX(-50%);
   bottom: 92px;
   z-index: 930;
-  height: 4px;
-  border-radius: 3px;
-  background: linear-gradient(to right, #f3f1e9 0%, #f3f1e9 var(--pct, 0%), rgba(255,255,255,.22) var(--pct, 0%));
-  border: none;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #ffdb9f 0%, #ffdb9f var(--pct, 0%), rgba(56,37,20,.78) var(--pct, 0%));
+  border: 1px solid rgba(255, 213, 140, .75);
   outline: none;
   cursor: pointer;
-  box-shadow: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.5), inset 0 1px 2px rgba(255,255,255,.15);
   margin: 0;
 }
 
@@ -498,9 +471,9 @@ html, body {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #d86f23;
-  border: 5px solid #f4e8d6;
-  box-shadow: 0 3px 10px rgba(0,0,0,.35);
+  background: radial-gradient(circle at 35% 30%, #fff4db, #e27823 68%);
+  border: 3px solid #fff2d8;
+  box-shadow: 0 3px 12px rgba(0,0,0,.45);
   cursor: pointer;
   transition: transform .15s;
 }
@@ -510,9 +483,9 @@ html, body {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #d86f23;
-  border: 5px solid #f4e8d6;
-  box-shadow: 0 3px 10px rgba(0,0,0,.35);
+  background: radial-gradient(circle at 35% 30%, #fff4db, #e27823 68%);
+  border: 3px solid #fff2d8;
+  box-shadow: 0 3px 12px rgba(0,0,0,.45);
   cursor: pointer;
 }
 
@@ -521,38 +494,31 @@ html, body {
   left: 50%;
   width: min(1100px, calc(100% - 100px));
   transform: translateX(-50%);
-  bottom: 52px;
+  bottom: 46px;
   z-index: 930;
-  color: rgba(255,255,255,.85);
-  font-size: 1.8rem;
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255,255,255,.92);
+  font-size: 1.05rem;
   font-family: 'EB Garamond', serif;
+  line-height: 1;
+  text-shadow: 0 2px 7px rgba(0,0,0,.55);
   pointer-events: none;
 }
 
 #top-panel {
   position: absolute;
   left: 50%;
-  top: 14px;
+  top: 10px;
   transform: translateX(-50%);
-  width: min(980px, calc(100% - 280px));
+  width: min(980px, calc(100% - 220px));
   border-radius: 8px;
   overflow: hidden;
   z-index: 940;
   box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  background: rgba(54, 34, 18, .84);
+  border: 1px solid rgba(212,168,67,.35);
 }
-
-.top-panel-head {
-  background: #bf5b2a;
-  color: #fef1d9;
-  padding: 10px 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Cinzel', serif;
-  font-size: 1rem;
-}
-
-.top-panel-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 #maps-btn {
   position: absolute;
@@ -649,9 +615,8 @@ html, body {
 @media (max-width: 640px) {
   #top-panel { width: calc(100% - 120px); }
   #year-slider { width: calc(100% - 36px); bottom: 82px; }
-  .year-range-labels { width: calc(100% - 36px); bottom: 46px; font-size: 1.35rem; }
+  .year-range-labels { width: calc(100% - 36px); bottom: 44px; font-size: .95rem; }
   #map-year-badge { bottom: 128px; }
-  #year-display { bottom: 100px; }
   #play-btn { right: 12px; bottom: 110px; }
   #legend { display: none; }
 }
@@ -660,9 +625,8 @@ html, body {
   #top-panel { width: calc(100% - 16px); top: 8px; }
   #maps-btn, #feedback-btn { display: none; }
   #year-slider { width: calc(100% - 20px); bottom: 74px; }
-  .year-range-labels { width: calc(100% - 20px); bottom: 44px; font-size: 1.05rem; }
+  .year-range-labels { width: calc(100% - 20px); bottom: 40px; font-size: .82rem; }
   #map-year-badge { bottom: 116px; transform: translateX(-50%) scale(.86); transform-origin: center; }
-  #year-display { bottom: 92px; transform: translateX(-50%) scale(.86); transform-origin: center; }
   #play-btn { bottom: 101px; transform: scale(.86); transform-origin: right bottom; }
 }
 

@@ -489,6 +489,10 @@ html, body {
   cursor: pointer;
 }
 
+#year-min, #year-max {
+  color: var(--ink-soft)
+}
+
 .year-range-labels {
   position: absolute;
   left: 50%;

@@ -215,7 +215,7 @@ function renderMarkers() {
         icon: makeIcon(v.category, renamed),
         title: label,
       })
-        .bindTooltip(label, { direction: 'right', offset: [6, 0] })
+        .bindTooltip(label, { direction: 'right', offset: [6, 0], permanent: true })
         .bindPopup(buildPopup(v, year), { maxWidth: 300 });
 
       marker.addTo(map);

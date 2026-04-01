@@ -28,7 +28,7 @@
   <!-- ── Main ────────────────────────────────────────────── -->
   <div id="main">
 
-    <!-- ── Sidebar ─────────────────────────────────────── -->
+    <!-- ── Sidebar (data controls; visually remapped) ───── -->
     <aside id="sidebar">
 
       <!-- Quick stats -->
@@ -87,6 +87,22 @@
 
     <!-- ── Map ────────────────────────────────────────────── -->
     <div id="map-wrap">
+      <div id="top-panel" aria-hidden="true">
+        <div class="top-panel-head">
+          <div class="top-panel-title">TimeMap.org — World History Atlas</div>
+          <button type="button" class="top-panel-close" aria-label="Close panel">×</button>
+        </div>
+        <div class="top-panel-tabs">
+          <div class="top-tab active">Regions</div>
+          <div class="top-tab">Rulers</div>
+          <div class="top-tab">People</div>
+          <div class="top-tab">Battles</div>
+        </div>
+      </div>
+
+      <button id="maps-btn" type="button" aria-label="Maps">Maps</button>
+      <button id="feedback-btn" type="button" aria-label="Feedback">Feedback</button>
+
       <div id="map"></div>
 
       <!-- Year badge overlay -->

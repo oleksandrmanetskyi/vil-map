@@ -28,76 +28,13 @@
   <!-- ── Main ────────────────────────────────────────────── -->
   <div id="main">
 
-    <!-- ── Sidebar (data controls; visually remapped) ───── -->
-    <aside id="sidebar">
-
-      <!-- Quick stats -->
-      <div class="sidebar-section">
-        <div class="section-title">Info</div>
-        <div id="stats" style="margin-top:12px">
-          <div class="stat-box">
-            <div class="stat-num" id="stat-total">0</div>
-            <div class="stat-lbl">Shown</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-num" id="stat-renamed">0</div>
-            <div class="stat-lbl">Renamed</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Category filters -->
-      <div class="sidebar-section">
-        <div class="section-title">Category</div>
-        <div id="cat-filters"></div>
-      </div>
-
-      <!-- Village list -->
-      <div class="sidebar-section" style="padding:0; flex:1; overflow-y:auto;">
-        <div class="section-title" style="padding:14px 16px 0; margin-bottom:8px;">Settlements</div>
-        <div id="village-list"></div>
-      </div>
-
-      <!-- Year control -->
-      <div class="sidebar-section sidebar-year">
-        <div class="section-title">Year</div>
-
-        <div id="year-display">
-          <div id="year-value">1938</div>
-          <div id="year-era">Soviet Era</div>
-        </div>
-
-        <input id="year-slider" type="range" min="1938" max="2020" value="1938"
-               aria-label="Select year" />
-
-        <div class="year-range-labels">
-          <span id="year-min">1938</span>
-          <span id="year-max">2020</span>
-        </div>
-
-        <button id="play-btn" type="button" aria-label="Animate through years">
-          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-            <polygon points="1,1 11,6 1,11" fill="currentColor"/>
-          </svg>
-          Animate
-        </button>
-      </div>
-
-    </aside>
-
     <!-- ── Map ────────────────────────────────────────────── -->
     <div id="map-wrap">
-      <div id="top-panel" aria-hidden="true">
+      <div id="top-panel">
         <div class="top-panel-head">
-          <div class="top-panel-title">TimeMap.org — World History Atlas</div>
-          <button type="button" class="top-panel-close" aria-label="Close panel">×</button>
+          <div class="top-panel-title">Categories</div>
         </div>
-        <div class="top-panel-tabs">
-          <div class="top-tab active">Regions</div>
-          <div class="top-tab">Rulers</div>
-          <div class="top-tab">People</div>
-          <div class="top-tab">Battles</div>
-        </div>
+        <div id="cat-filters"></div>
       </div>
 
       <button id="maps-btn" type="button" aria-label="Maps">Maps</button>
@@ -110,6 +47,25 @@
         <div class="badge-year" id="badge-year">1938</div>
         <div class="badge-label">A.D.</div>
       </div>
+      <div id="year-display" aria-hidden="true">
+        <div id="year-value">1938</div>
+        <div id="year-era">Soviet Era</div>
+      </div>
+
+      <input id="year-slider" type="range" min="1938" max="2020" value="1938"
+             aria-label="Select year" />
+
+      <div class="year-range-labels">
+        <span id="year-min">1938</span>
+        <span id="year-max">2020</span>
+      </div>
+
+      <button id="play-btn" type="button" aria-label="Animate through years">
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <polygon points="1,1 11,6 1,11" fill="currentColor"/>
+        </svg>
+        Animate
+      </button>
 
       <!-- Legend -->
       <div id="legend" role="complementary" aria-label="Map legend">
@@ -124,6 +80,14 @@
           <span style="font-style:italic">Pending rename</span>
         </div>
       </div>
+    </div>
+
+    <div id="hidden-data-ui" aria-hidden="true">
+      <div id="stats">
+        <div id="stat-total">0</div>
+        <div id="stat-renamed">0</div>
+      </div>
+      <div id="village-list"></div>
     </div>
 
   </div><!-- /#main -->

@@ -75,27 +75,9 @@ html, body {
 }
 
 /* ── Sidebar ──────────────────────────────────── */
-#sidebar {
-  width: 320px;
-  background: rgba(41, 29, 18, .9);
-  border: 1px solid rgba(212,168,67,.35);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  z-index: 920;
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  max-height: calc(100% - 132px);
-  backdrop-filter: blur(4px);
-}
+#sidebar { display: none; }
 
-.sidebar-section {
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(212,168,67,.2);
-}
+.sidebar-section { padding: 14px 16px; border-bottom: 1px solid rgba(212,168,67,.2); }
 
 .sidebar-section:last-child { border-bottom: none; flex: 1; overflow-y: auto; }
 
@@ -120,25 +102,30 @@ html, body {
 
 /* ── Year panel ──────────────────────────────── */
 #year-display {
+  position: absolute;
+  left: 50%;
+  bottom: 114px;
+  transform: translateX(-50%);
+  z-index: 930;
   text-align: center;
-  margin-bottom: 10px;
+  pointer-events: none;
 }
 
 #year-value {
   font-family: 'Cinzel', serif;
-  font-size: 2.4rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: var(--ink);
+  color: #ffe7c4;
   line-height: 1;
-  text-shadow: 1px 1px 0 var(--parchment-d);
+  text-shadow: 0 2px 8px rgba(0,0,0,.45);
 }
 
 #year-era {
   font-family: 'EB Garamond', serif;
   font-style: italic;
-  font-size: .85rem;
-  color: var(--ink-soft);
-  opacity: .7;
+  font-size: .76rem;
+  color: rgba(255,233,198,.86);
+  opacity: .95;
 }
 
 /* Slider */
@@ -245,15 +232,17 @@ html, body {
 /* ── Category filters ────────────────────────── */
 #cat-filters {
   display: flex;
-  flex-direction: column;
-  gap: 7px;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  background: rgba(54, 34, 18, .92);
 }
 
 .cat-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 7px;
+  padding: 6px 10px;
   background: transparent;
   border: 1px solid rgba(212,168,67,.28);
   border-radius: 4px;
@@ -263,7 +252,7 @@ html, body {
   color: #f3e0be;
   text-align: left;
   transition: background .15s, border-color .15s;
-  width: 100%;
+  width: auto;
 }
 
 .cat-btn:hover {
@@ -287,8 +276,8 @@ html, body {
   border: 2px solid rgba(0,0,0,.2);
 }
 
-.cat-label { flex: 1; font-size: .88rem; text-transform: capitalize; }
-.cat-count { font-size: .75rem; opacity: .55; font-family: 'Cinzel', serif; }
+.cat-label { font-size: .88rem; text-transform: capitalize; }
+.cat-count { display: none; }
 
 .cat-check {
   color: #ffd59a;
@@ -353,7 +342,7 @@ html, body {
 /* ── Map overlay label ───────────────────────── */
 #map-year-badge {
   position: absolute;
-  bottom: 108px;
+  bottom: 146px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 900;
@@ -364,7 +353,7 @@ html, body {
   text-align: center;
   box-shadow: 0 8px 18px rgba(0,0,0,.32);
   pointer-events: none;
-  min-width: 110px;
+  min-width: 90px;
 }
 
 #map-year-badge .badge-year {
@@ -510,7 +499,7 @@ html, body {
 /* ── Legend ──────────────────────────────────── */
 #legend {
   position: absolute;
-  bottom: 118px;
+  bottom: 92px;
   left: 12px;
   z-index: 900;
   background: rgba(245,234,212,.92);
@@ -525,13 +514,14 @@ html, body {
 /* Bottom timeline overlay */
 #year-slider {
   position: absolute;
-  left: 84px;
-  right: 84px;
-  bottom: 44px;
+  left: 50%;
+  width: min(1100px, calc(100% - 100px));
+  transform: translateX(-50%);
+  bottom: 92px;
   z-index: 930;
   height: 4px;
   border-radius: 3px;
-  background: linear-gradient(to right, #f3f1e9 0%, #f3f1e9 var(--pct, 0%), rgba(255,255,255,.3) var(--pct, 0%));
+  background: linear-gradient(to right, #f3f1e9 0%, #f3f1e9 var(--pct, 0%), rgba(255,255,255,.22) var(--pct, 0%));
   border: none;
   box-shadow: none;
   margin: 0;
@@ -557,24 +547,21 @@ html, body {
 
 .year-range-labels {
   position: absolute;
-  left: 84px;
-  right: 84px;
-  bottom: 6px;
+  left: 50%;
+  width: min(1100px, calc(100% - 100px));
+  transform: translateX(-50%);
+  bottom: 52px;
   z-index: 930;
   color: rgba(255,255,255,.85);
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-family: 'EB Garamond', serif;
   pointer-events: none;
 }
 
-#year-value, #year-era {
-  display: none;
-}
-
 #play-btn {
   position: absolute;
-  right: 20px;
-  bottom: 36px;
+  right: max(20px, calc(50% - 570px));
+  bottom: 120px;
   z-index: 931;
   width: auto;
   min-width: 88px;
@@ -589,7 +576,7 @@ html, body {
   left: 50%;
   top: 14px;
   transform: translateX(-50%);
-  width: min(420px, calc(100% - 220px));
+  width: min(980px, calc(100% - 280px));
   border-radius: 8px;
   overflow: hidden;
   z-index: 940;
@@ -601,45 +588,13 @@ html, body {
   color: #fef1d9;
   padding: 10px 16px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   font-family: 'Cinzel', serif;
   font-size: 1rem;
 }
 
-.top-panel-title {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.top-panel-close {
-  border: 0;
-  background: transparent;
-  color: #fef1d9;
-  font-size: 1.4rem;
-  line-height: 1;
-  cursor: default;
-}
-
-.top-panel-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  background: rgba(54, 34, 18, .92);
-}
-
-.top-tab {
-  color: #baa98d;
-  text-align: center;
-  padding: 9px 8px 7px;
-  font-family: 'Cinzel', serif;
-  font-size: .86rem;
-}
-
-.top-tab.active {
-  color: #f8a63f;
-  font-weight: 700;
-}
+.top-panel-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 #maps-btn {
   position: absolute;
@@ -674,6 +629,15 @@ html, body {
   font-family: 'Cinzel', serif;
   font-size: .95rem;
   padding: 8px 14px;
+}
+
+#hidden-data-ui {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .legend-title {
@@ -725,20 +689,23 @@ html, body {
 
 /* ── Mobile responsive ────────────────────────── */
 @media (max-width: 640px) {
-  #sidebar { width: 260px; max-height: calc(100% - 128px); }
-  #top-panel { width: calc(100% - 180px); }
-  #year-slider { left: 24px; right: 24px; bottom: 46px; }
-  .year-range-labels { left: 24px; right: 24px; font-size: 1.35rem; }
-  #play-btn { bottom: 72px; right: 12px; }
+  #top-panel { width: calc(100% - 120px); }
+  #year-slider { width: calc(100% - 36px); bottom: 82px; }
+  .year-range-labels { width: calc(100% - 36px); bottom: 46px; font-size: 1.35rem; }
+  #map-year-badge { bottom: 128px; }
+  #year-display { bottom: 100px; }
+  #play-btn { right: 12px; bottom: 110px; }
   #legend { display: none; }
 }
 
 @media (max-width: 480px) {
-  #sidebar { width: calc(100% - 20px); max-height: 45%; top: 10px; left: 10px; }
-  #top-panel { width: calc(100% - 30px); top: auto; bottom: 120px; }
+  #top-panel { width: calc(100% - 16px); top: 8px; }
   #maps-btn, #feedback-btn { display: none; }
-  #year-slider { left: 16px; right: 16px; }
-  .year-range-labels { left: 16px; right: 16px; }
+  #year-slider { width: calc(100% - 20px); bottom: 74px; }
+  .year-range-labels { width: calc(100% - 20px); bottom: 44px; font-size: 1.05rem; }
+  #map-year-badge { bottom: 116px; transform: translateX(-50%) scale(.86); transform-origin: center; }
+  #year-display { bottom: 92px; transform: translateX(-50%) scale(.86); transform-origin: center; }
+  #play-btn { bottom: 101px; transform: scale(.86); transform-origin: right bottom; }
 }
 
 /* ── Animations ──────────────────────────────── */

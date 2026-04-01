@@ -6,10 +6,10 @@
 
 // ── Category colours ─────────────────────────────────────────────────────────
 const CAT_COLORS = {
-  city:     '#8b2e1a',   // deep red
-  town:     '#7c5e2e',   // brown
-  village:  '#2e6b3e',   // forest green
-  district: '#2a5f8f',   // steel blue
+  'деетнізація':     '#8b2e1a',   // deep red
+  'натуралізація':   '#7c5e2e',   // brown
+  'village':  '#2e6b3e',   // forest green
+  'district': '#2a5f8f',   // steel blue
 };
 
 function catColor(cat) {
@@ -46,8 +46,8 @@ function buildPopup(v, currentYear) {
   const isRenamed = currentYear >= v.year;
   const shownName = isRenamed ? v.newName : v.oldName;
   const otherName = isRenamed ? v.oldName : v.newName;
-  const otherLabel = isRenamed ? 'Former name' : 'Future name';
-  const yearLabel  = isRenamed ? 'Renamed in' : 'Will rename in';
+  const otherLabel = isRenamed ? 'Попередня назва' : 'Майбутня назва';
+  const yearLabel  = isRenamed ? 'Перейменовано в' : 'Буде перейменовано в';
 
   return `<div class="popup-inner">
     <div class="popup-name">${esc(shownName)}</div>
@@ -94,8 +94,8 @@ const state = {
 
 // ── Map init ─────────────────────────────────────────────────────────────────
 const map = L.map('map', {
-  center: [49.0, 32.0],
-  zoom: 6,
+  center: [45.2, 34.0],
+  zoom: 9,
   zoomControl: true,
 });
 
@@ -135,7 +135,7 @@ function buildCategoryButtons() {
   allBtn.dataset.cat = '__all__';
   allBtn.innerHTML = `
     <span class="cat-dot" style="background:linear-gradient(135deg,${Object.values(CAT_COLORS).join(',')})"></span>
-    <span class="cat-label">All categories</span>
+    <span class="cat-label">Усі категорії</span>
     <span class="cat-count">${VILLAGES.length}</span>
     <span class="cat-check">✓</span>`;
   allBtn.addEventListener('click', () => {
@@ -318,7 +318,7 @@ function setPlaying(playing) {
       <svg width="12" height="12" viewBox="0 0 12 12">
         <rect x="1" y="1" width="4" height="10" rx="1" fill="currentColor"/>
         <rect x="7" y="1" width="4" height="10" rx="1" fill="currentColor"/>
-      </svg> Pause`;
+      </svg> Пауза`;
     state.playTimer = setInterval(() => {
       let y = state.year + 1;
       if (y > ALL_YEARS.max) y = ALL_YEARS.min;
@@ -334,7 +334,7 @@ function setPlaying(playing) {
     playBtnEl.innerHTML = `
       <svg width="12" height="12" viewBox="0 0 12 12">
         <polygon points="1,1 11,6 1,11" fill="currentColor"/>
-      </svg> Animate`;
+      </svg> Анімувати`;
   }
 }
 

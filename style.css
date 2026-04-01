@@ -112,6 +112,11 @@ html, body {
 
 .sidebar-section:last-child { border-bottom: none; flex: 1; overflow-y: auto; }
 
+.sidebar-year {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
 .section-title {
   font-family: 'Cinzel', serif;
   font-size: .72rem;

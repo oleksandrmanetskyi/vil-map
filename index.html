@@ -31,31 +31,9 @@
     <!-- ── Sidebar ─────────────────────────────────────── -->
     <aside id="sidebar">
 
-      <!-- Year control -->
+      <!-- Quick stats -->
       <div class="sidebar-section">
-        <div class="section-title">Year</div>
-
-        <div id="year-display">
-          <div id="year-value">1938</div>
-          <div id="year-era">Soviet Era</div>
-        </div>
-
-        <input id="year-slider" type="range" min="1938" max="2020" value="1938"
-               aria-label="Select year" />
-
-        <div class="year-range-labels">
-          <span id="year-min">1938</span>
-          <span id="year-max">2020</span>
-        </div>
-
-        <button id="play-btn" type="button" aria-label="Animate through years">
-          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
-            <polygon points="1,1 11,6 1,11" fill="currentColor"/>
-          </svg>
-          Animate
-        </button>
-
-        <!-- Quick stats -->
+        <div class="section-title">Info</div>
         <div id="stats" style="margin-top:12px">
           <div class="stat-box">
             <div class="stat-num" id="stat-total">0</div>
@@ -78,6 +56,31 @@
       <div class="sidebar-section" style="padding:0; flex:1; overflow-y:auto;">
         <div class="section-title" style="padding:14px 16px 0; margin-bottom:8px;">Settlements</div>
         <div id="village-list"></div>
+      </div>
+
+      <!-- Year control -->
+      <div class="sidebar-section sidebar-year">
+        <div class="section-title">Year</div>
+
+        <div id="year-display">
+          <div id="year-value">1938</div>
+          <div id="year-era">Soviet Era</div>
+        </div>
+
+        <input id="year-slider" type="range" min="1938" max="2020" value="1938"
+               aria-label="Select year" />
+
+        <div class="year-range-labels">
+          <span id="year-min">1938</span>
+          <span id="year-max">2020</span>
+        </div>
+
+        <button id="play-btn" type="button" aria-label="Animate through years">
+          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+            <polygon points="1,1 11,6 1,11" fill="currentColor"/>
+          </svg>
+          Animate
+        </button>
       </div>
 
     </aside>

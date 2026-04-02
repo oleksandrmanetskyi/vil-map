@@ -11,6 +11,7 @@ function parseCsvRow(line) {
       if (inQuotes && line[i + 1] === '"') {
         cur += '"';
         i += 1;
+        continue;
       } else {
         inQuotes = !inQuotes;
       }
@@ -119,7 +120,7 @@ function parseVillageCsv(csvText) {
 }
 
 window.loadVillageDataset = async function loadVillageDataset(url = CSV_DATA_URL) {
-  const response = await fetch(url, { cache: 'no-store' });
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to load CSV data from "${url}" (${response.status})`);
   }

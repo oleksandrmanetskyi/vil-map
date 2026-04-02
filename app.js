@@ -77,7 +77,7 @@ function buildPopup(v, currentYear) {
     }
     <div class="popup-divider"></div>
     <div class="popup-row">
-      <span class="popup-row-label">Region</span>
+      <span class="popup-row-label">Type</span>
       <span class="popup-row-value">${esc(v.type || '-')}</span>
     </div>
     <div class="popup-row">

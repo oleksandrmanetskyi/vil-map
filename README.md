@@ -20,7 +20,7 @@ Notes:
 - `rename date` can be a year (`1948`) or a parseable date (`1948-06-10`); the timeline uses the extracted year.
 - `lat` and `lng` must be valid numbers.
 - Rows missing required fields (`old name`, `new name`, `rename date`, `lat`, `lng`) are skipped.
-- The current UI surfaces `type`, `category`, `rename date`, and `act` from CSV; `region` is not used in this version.
+- The current UI surfaces `type`, `category`, `rename date`, and `act` from CSV.
 
 ## Run locally
 

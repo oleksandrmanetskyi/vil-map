@@ -31,7 +31,7 @@ function normalizeHeader(header) {
   return String(header || '').trim().toLowerCase();
 }
 
-function parseRenameYear(renameDateRaw) {
+function extractYearFromRenameDate(renameDateRaw) {
   const raw = String(renameDateRaw || '').trim();
   if (!raw) return NaN;
 
@@ -56,7 +56,7 @@ function splitCategories(rawCategory) {
 
 function deriveAllYears(villages) {
   if (!villages.length) {
-    const fallbackYear = new Date().getFullYear();
+    const fallbackYear = 2000;
     return { min: fallbackYear - 1, max: fallbackYear + 1 };
   }
   const min = Math.min(...villages.map(v => v.year)) - 1;
@@ -92,7 +92,7 @@ function parseVillageCsv(csvText) {
     const oldName = row['old name'] || row.old_name || row.oldname || '';
     const newName = row['new name'] || row.new_name || row.newname || '';
     const renameDate = row['rename date'] || row.rename_date || row.year || '';
-    const year = parseRenameYear(renameDate);
+    const year = extractYearFromRenameDate(renameDate);
     const lat = parseFloat(row.lat);
     const lng = parseFloat(row.lng);
     const act = row.act || '';
@@ -122,7 +122,7 @@ function parseVillageCsv(csvText) {
 async function loadVillageDataset(url = CSV_DATA_URL) {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Failed to load CSV data from "${url}" (${response.status})`);
+    throw new Error(`Failed to load CSV data from "${url}" (${response.status} ${response.statusText})`);
   }
 
   const csvText = await response.text();

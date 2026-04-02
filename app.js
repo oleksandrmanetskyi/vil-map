@@ -393,5 +393,5 @@ window.loadVillageDataset()
   .then(initializeApp)
   .catch((error) => {
     console.error(error);
-    alert(`Failed to load dataset: ${error.message}`);
+    alert(`Failed to load settlement data. Please ensure data.csv exists and is accessible. Error: ${error.message}`);
   });

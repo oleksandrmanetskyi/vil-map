@@ -78,7 +78,7 @@ function buildPopup(v, currentYear) {
     </div>
     <div class="popup-row">
       <span class="popup-row-label">Category</span>
-      <span class="popup-row-value" style="text-transform:capitalize">${esc(v.category)}</span>
+      <span class="popup-row-value" style="text-transform:capitalize">${esc(categoriesOf(v).join(', '))}</span>
     </div>
     <div class="popup-row">
       <span class="popup-row-label">${yearLabel}</span>

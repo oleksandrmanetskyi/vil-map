@@ -119,7 +119,7 @@ function parseVillageCsv(csvText) {
   return villages;
 }
 
-window.loadVillageDataset = async function loadVillageDataset(url = CSV_DATA_URL) {
+async function loadVillageDataset(url = CSV_DATA_URL) {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to load CSV data from "${url}" (${response.status})`);
@@ -131,4 +131,6 @@ window.loadVillageDataset = async function loadVillageDataset(url = CSV_DATA_URL
   const categories = deriveCategories(villages);
 
   return { villages, allYears, categories };
-};
+}
+
+window.loadVillageDataset = loadVillageDataset;

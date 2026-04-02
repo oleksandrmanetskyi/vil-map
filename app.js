@@ -4,10 +4,6 @@
 
 'use strict';
 
-if (typeof window.loadVillageDataset !== 'function') {
-  throw new Error('Village dataset loader is not available.');
-}
-
 // ── Category colours ─────────────────────────────────────────────────────────
 const CAT_COLORS = {
   'деетнізація':     '#8b2e1a',   // deep red

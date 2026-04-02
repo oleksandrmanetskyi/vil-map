@@ -4,14 +4,13 @@ function parseCsvRow(line) {
   const cells = [];
   let cur = '';
   let inQuotes = false;
-
-  for (let i = 0; i < line.length; i += 1) {
+  let i = 0;
+  while (i < line.length) {
     const char = line[i];
     if (char === '"') {
       if (inQuotes && line[i + 1] === '"') {
         cur += '"';
         i += 1;
-        continue;
       } else {
         inQuotes = !inQuotes;
       }
@@ -21,6 +20,7 @@ function parseCsvRow(line) {
     } else {
       cur += char;
     }
+    i += 1;
   }
 
   cells.push(cur.trim());

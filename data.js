@@ -2,8 +2,9 @@ function parseCsvLine(line) {
   const values = [];
   let current = '';
   let inQuotes = false;
+  let i = 0;
 
-  for (let i = 0; i < line.length; i += 1) {
+  while (i < line.length) {
     const ch = line[i];
     if (ch === '"') {
       if (inQuotes && line[i + 1] === '"') {
@@ -18,6 +19,7 @@ function parseCsvLine(line) {
     } else {
       current += ch;
     }
+    i += 1;
   }
   values.push(current);
 
@@ -83,6 +85,7 @@ const VILLAGES = loadVillagesFromCsv('data.csv');
 
 /** Derive the full sorted list of unique years for the slider */
 const ALL_YEARS = (() => {
+  // Keep slider stable even when CSV is empty or malformed.
   if (!VILLAGES.length) return { min: 0, max: 0 };
   const min = Math.min(...VILLAGES.map(v => v.year)) - 1;
   const max = Math.max(...VILLAGES.map(v => v.year)) + 1;

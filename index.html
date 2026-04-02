@@ -42,12 +42,12 @@
         <div class="badge-label">A.D.</div>
       </div>
 
-      <input id="year-slider" type="range" min="1938" max="2020" value="1938"
-             aria-label="Select year" />
+      <input id="year-slider" type="range" min="0" max="1" value="0"
+              aria-label="Select year" />
 
       <div class="year-range-labels">
-        <span id="year-min">1940</span>
-        <span id="year-max">1950</span>
+        <span id="year-min">0</span>
+        <span id="year-max">1</span>
       </div>
 
       <button id="play-btn" type="button" aria-label="Animate through years">
@@ -87,10 +87,8 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<!-- Data -->
-<script src="data.js"></script>
-
 <!-- App logic -->
+<script src="data.js"></script>
 <script src="app.js"></script>
 
 </body>

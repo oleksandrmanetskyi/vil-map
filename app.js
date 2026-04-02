@@ -4,6 +4,10 @@
 
 'use strict';
 
+if (typeof window.loadVillageDataset !== 'function') {
+  throw new Error('Village dataset loader is not available.');
+}
+
 // ── Category colours ─────────────────────────────────────────────────────────
 const CAT_COLORS = {
   'деетнізація':     '#8b2e1a',   // deep red
@@ -74,7 +78,7 @@ function buildPopup(v, currentYear) {
     <div class="popup-divider"></div>
     <div class="popup-row">
       <span class="popup-row-label">Region</span>
-      <span class="popup-row-value">${esc(v.region)}</span>
+      <span class="popup-row-value">${esc(v.type || '-')}</span>
     </div>
     <div class="popup-row">
       <span class="popup-row-label">Category</span>
@@ -86,6 +90,14 @@ function buildPopup(v, currentYear) {
         <span class="popup-year-tag">${v.year}</span>
       </span>
     </div>
+    ${v.renameDate ? `<div class="popup-row">
+      <span class="popup-row-label">Rename date</span>
+      <span class="popup-row-value">${esc(v.renameDate)}</span>
+    </div>` : ''}
+    ${v.act ? `<div class="popup-row">
+      <span class="popup-row-label">Act</span>
+      <span class="popup-row-value">${esc(v.act)}</span>
+    </div>` : ''}
     ${v.note ? `<div class="popup-note">${esc(v.note)}</div>` : ''}
   </div>`;
 }
@@ -100,8 +112,11 @@ function esc(str) {
 
 // ── App state ────────────────────────────────────────────────────────────────
 const state = {
-  year: ALL_YEARS.min,
-  activeCategories: new Set(CATEGORIES),
+  villages: [],
+  allYears: { min: 0, max: 0 },
+  categories: [],
+  year: 0,
+  activeCategories: new Set(),
   markers: new Map(),   // village index → L.marker
   playTimer: null,
 };
@@ -133,30 +148,24 @@ const statRenamedEl = document.getElementById('stat-renamed');
 const legendBodyEl  = document.getElementById('legend-body');
 
 // ── Slider range ─────────────────────────────────────────────────────────────
-sliderEl.min   = ALL_YEARS.min;
-sliderEl.max   = ALL_YEARS.max;
-sliderEl.value = ALL_YEARS.min;
-document.getElementById('year-min').textContent = ALL_YEARS.min;
-document.getElementById('year-max').textContent = ALL_YEARS.max;
-
 // ── Category buttons ─────────────────────────────────────────────────────────
 function buildCategoryButtons() {
   catFiltersEl.innerHTML = '';
 
   // "All" toggle
   const allBtn = document.createElement('button');
-  allBtn.className = 'cat-btn' + (state.activeCategories.size === CATEGORIES.length ? ' active' : '');
+  allBtn.className = 'cat-btn' + (state.activeCategories.size === state.categories.length ? ' active' : '');
   allBtn.dataset.cat = '__all__';
   allBtn.innerHTML = `
     <span class="cat-dot" style="background:linear-gradient(135deg,${Object.values(CAT_COLORS).join(',')})"></span>
     <span class="cat-label">Усі категорії</span>
-    <span class="cat-count">${VILLAGES.length}</span>
+    <span class="cat-count">${state.villages.length}</span>
     <span class="cat-check">✓</span>`;
   allBtn.addEventListener('click', () => {
-    if (state.activeCategories.size === CATEGORIES.length) {
+    if (state.activeCategories.size === state.categories.length) {
       state.activeCategories.clear();
     } else {
-      CATEGORIES.forEach(c => state.activeCategories.add(c));
+      state.categories.forEach(c => state.activeCategories.add(c));
     }
     buildCategoryButtons();
     renderMarkers();
@@ -164,8 +173,8 @@ function buildCategoryButtons() {
   });
   catFiltersEl.appendChild(allBtn);
 
-  CATEGORIES.forEach(cat => {
-    const count = VILLAGES.filter(v => categoriesOf(v).includes(cat)).length;
+  state.categories.forEach(cat => {
+    const count = state.villages.filter(v => categoriesOf(v).includes(cat)).length;
     const active = state.activeCategories.has(cat);
     const btn = document.createElement('button');
     btn.className = 'cat-btn' + (active ? ' active' : '');
@@ -192,7 +201,7 @@ function buildCategoryButtons() {
 // ── Legend ────────────────────────────────────────────────────────────────────
 function buildLegend() {
   legendBodyEl.innerHTML = '';
-  CATEGORIES.forEach(cat => {
+  state.categories.forEach(cat => {
     const row = document.createElement('div');
     row.className = 'legend-row';
     row.innerHTML = `<span class="legend-dot" style="background:${catColor(cat)}"></span>${esc(cat)}`;
@@ -204,7 +213,7 @@ function buildLegend() {
 function renderMarkers() {
   const year = state.year;
 
-  VILLAGES.forEach((v, i) => {
+  state.villages.forEach((v, i) => {
     const visible = matchesActiveCategories(v);
     const primaryCat = primaryCategoryOf(v);
 
@@ -240,7 +249,7 @@ function renderMarkers() {
 
   // Remove markers for hidden villages that may have been cached
   state.markers.forEach((m, i) => {
-    if (!matchesActiveCategories(VILLAGES[i])) {
+    if (!matchesActiveCategories(state.villages[i])) {
       map.removeLayer(m);
       state.markers.delete(i);
     }
@@ -254,7 +263,7 @@ function renderVillageList() {
   const year = state.year;
   villageListEl.innerHTML = '';
 
-  const visible = VILLAGES
+  const visible = state.villages
     .map((v, i) => ({ v, i }))
     .filter(({ v }) => matchesActiveCategories(v))
     .sort((a, b) => {
@@ -290,7 +299,7 @@ function renderVillageList() {
 // ── Stats ─────────────────────────────────────────────────────────────────────
 function updateStats() {
   const year = state.year;
-  const visible = VILLAGES.filter(v => matchesActiveCategories(v));
+  const visible = state.villages.filter(v => matchesActiveCategories(v));
   const renamed  = visible.filter(v => year >= v.year && v.oldName !== v.newName);
   statTotalEl.textContent   = visible.length;
   statRenamedEl.textContent = renamed.length;
@@ -313,7 +322,10 @@ function updateYearDisplay(year) {
   if (yearEraEl) yearEraEl.textContent = era;
 
   // Slider fill % via CSS custom property
-  const pct = ((year - ALL_YEARS.min) / (ALL_YEARS.max - ALL_YEARS.min) * 100).toFixed(1);
+  const range = state.allYears.max - state.allYears.min;
+  const pct = range > 0
+    ? ((year - state.allYears.min) / range * 100).toFixed(1)
+    : '0.0';
   sliderEl.style.setProperty('--pct', pct + '%');
 }
 
@@ -336,7 +348,7 @@ function setPlaying(playing) {
       </svg> Пауза`;
     state.playTimer = setInterval(() => {
       let y = state.year + 1;
-      if (y > ALL_YEARS.max) y = ALL_YEARS.min;
+      if (y > state.allYears.max) y = state.allYears.min;
       state.year = y;
       sliderEl.value = y;
       updateYearDisplay(y);
@@ -361,9 +373,29 @@ playBtnEl.addEventListener('click', () => {
   }
 });
 
-// ── Init ──────────────────────────────────────────────────────────────────────
-buildCategoryButtons();
-buildLegend();
-updateYearDisplay(state.year);
-renderMarkers();
-renderVillageList();
+function initializeApp(dataset) {
+  state.villages = dataset.villages;
+  state.allYears = dataset.allYears;
+  state.categories = dataset.categories;
+  state.year = dataset.allYears.min;
+  state.activeCategories = new Set(dataset.categories);
+
+  sliderEl.min = dataset.allYears.min;
+  sliderEl.max = dataset.allYears.max;
+  sliderEl.value = dataset.allYears.min;
+  document.getElementById('year-min').textContent = dataset.allYears.min;
+  document.getElementById('year-max').textContent = dataset.allYears.max;
+
+  buildCategoryButtons();
+  buildLegend();
+  updateYearDisplay(state.year);
+  renderMarkers();
+  renderVillageList();
+}
+
+window.loadVillageDataset()
+  .then(initializeApp)
+  .catch((error) => {
+    console.error(error);
+    alert(`Failed to load dataset: ${error.message}`);
+  });

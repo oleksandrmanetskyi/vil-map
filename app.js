@@ -16,6 +16,20 @@ function catColor(cat) {
   return CAT_COLORS[cat] || '#555';
 }
 
+function categoriesOf(v) {
+  return Array.isArray(v.category) ? v.category.filter(Boolean) : [v.category].filter(Boolean);
+}
+
+function primaryCategoryOf(v) {
+  const cats = categoriesOf(v);
+  return cats[0] || '';
+}
+
+function matchesActiveCategories(v) {
+  const cats = categoriesOf(v);
+  return cats.some(cat => state.activeCategories.has(cat));
+}
+
 // ── SVG pin factory ──────────────────────────────────────────────────────────
 function makePinSVG(color, size = 30) {
   const s = size;
@@ -151,7 +165,7 @@ function buildCategoryButtons() {
   catFiltersEl.appendChild(allBtn);
 
   CATEGORIES.forEach(cat => {
-    const count = VILLAGES.filter(v => v.category === cat).length;
+    const count = VILLAGES.filter(v => categoriesOf(v).includes(cat)).length;
     const active = state.activeCategories.has(cat);
     const btn = document.createElement('button');
     btn.className = 'cat-btn' + (active ? ' active' : '');
@@ -191,7 +205,8 @@ function renderMarkers() {
   const year = state.year;
 
   VILLAGES.forEach((v, i) => {
-    const visible = state.activeCategories.has(v.category);
+    const visible = matchesActiveCategories(v);
+    const primaryCat = primaryCategoryOf(v);
 
     if (state.markers.has(i)) {
       const m = state.markers.get(i);
@@ -201,7 +216,7 @@ function renderMarkers() {
       }
       // Update icon & tooltip
       const renamed = year >= v.year;
-      m.setIcon(makeIcon(v.category, renamed));
+      m.setIcon(makeIcon(primaryCat, renamed));
       const label = renamed ? v.newName : v.oldName;
       m.setTooltipContent(label);
       m.setPopupContent(buildPopup(v, year));
@@ -212,7 +227,7 @@ function renderMarkers() {
       const label = renamed ? v.newName : v.oldName;
 
       const marker = L.marker([v.lat, v.lng], {
-        icon: makeIcon(v.category, renamed),
+        icon: makeIcon(primaryCat, renamed),
         title: label,
       })
         .bindTooltip(label, { direction: 'right', offset: [6, 0], permanent: true })
@@ -225,7 +240,7 @@ function renderMarkers() {
 
   // Remove markers for hidden villages that may have been cached
   state.markers.forEach((m, i) => {
-    if (!state.activeCategories.has(VILLAGES[i].category)) {
+    if (!matchesActiveCategories(VILLAGES[i])) {
       map.removeLayer(m);
       state.markers.delete(i);
     }
@@ -241,7 +256,7 @@ function renderVillageList() {
 
   const visible = VILLAGES
     .map((v, i) => ({ v, i }))
-    .filter(({ v }) => state.activeCategories.has(v.category))
+    .filter(({ v }) => matchesActiveCategories(v))
     .sort((a, b) => {
       // Renamed ones (current year ≥ rename year) first, then alpha
       const rA = year >= a.v.year;
@@ -260,7 +275,7 @@ function renderVillageList() {
     item.innerHTML = `
       <div class="vl-name-cur">${esc(curName)}</div>
       ${renamed && v.oldName !== v.newName ? `<div class="vl-name-old">← ${esc(v.oldName)}</div>` : ''}
-      <div class="vl-meta">${esc(v.region)} · ${esc(v.category)}</div>`;
+      <div class="vl-meta">${esc(v.region)} · ${esc(categoriesOf(v).join(', '))}</div>`;
     item.addEventListener('click', () => {
       const m = state.markers.get(i);
       if (m) {
@@ -275,7 +290,7 @@ function renderVillageList() {
 // ── Stats ─────────────────────────────────────────────────────────────────────
 function updateStats() {
   const year = state.year;
-  const visible = VILLAGES.filter(v => state.activeCategories.has(v.category));
+  const visible = VILLAGES.filter(v => matchesActiveCategories(v));
   const renamed  = visible.filter(v => year >= v.year && v.oldName !== v.newName);
   statTotalEl.textContent   = visible.length;
   statRenamedEl.textContent = renamed.length;

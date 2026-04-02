@@ -8,6 +8,10 @@
  *   "village"   – rural villages
  *   "district"  – district centres
  *
+ * "category" can be:
+ *   - string (one category)
+ *   - array of up to two strings (two categories)
+ *
  * Replace or extend this array with your own data.
  */
 const VILLAGES = [
@@ -41,5 +45,8 @@ const ALL_YEARS = (() => {
   return { min, max };
 })();
 
-/** Derive unique categories */
-const CATEGORIES = [...new Set(VILLAGES.map(v => v.category))].sort();
+/** Derive unique categories (supports string or array category values) */
+const CATEGORIES = [...new Set(
+  VILLAGES.flatMap(v => Array.isArray(v.category) ? v.category : [v.category])
+    .filter(Boolean)
+)].sort();

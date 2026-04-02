@@ -42,7 +42,7 @@ function loadVillagesFromCsv(path) {
 
   if (lines.length < 2) return [];
 
-  const headers = parseCsvLine(lines[0]).map(h => h.trim().toLowerCase());
+  const headers = parseCsvLine(lines[0]).map(h => h.replace(/^\uFEFF/, '').trim().toLowerCase());
   const idx = {
     oldName: headers.indexOf('old name'),
     newName: headers.indexOf('new name'),
@@ -53,6 +53,10 @@ function loadVillagesFromCsv(path) {
     lng: headers.indexOf('lng'),
     category: headers.indexOf('category'),
   };
+  const required = Object.values(idx);
+  if (required.some(i => i < 0)) {
+    throw new Error(`CSV header mismatch in ${path}`);
+  }
 
   return lines.slice(1).map(line => {
     const cols = parseCsvLine(line);

@@ -1,0 +1,653 @@
+/* ──────────────────────────────────────────────
+   VILLAGE RENAME MAP  –  style.css
+   Historical / vintage aesthetic
+────────────────────────────────────────────── */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+
+/* ── Reset & base ─────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --parchment:   #f5ead4;
+  --parchment-d: #e8d5b0;
+  --ink:         #2c1a0e;
+  --ink-soft:    #4a3020;
+  --gold:        #b8860b;
+  --gold-light:  #d4a843;
+  --red-wax:     #8b2e1a;
+  --red-wax-lt:  #c04030;
+  --border:      #8b6914;
+  --shadow:      rgba(44,26,14,.45);
+  --map-bg:      #c8b89a;
+  --accent-blue: #2a5f8f;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: 'EB Garamond', Georgia, serif;
+  background: #0f1a23;
+  color: var(--ink);
+}
+
+/* ── Layout ───────────────────────────────────── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Header ───────────────────────────────────── */
+#header {
+  display: none;
+}
+
+#header-text { flex: 1; text-align: center; }
+
+#site-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1rem, 2.5vw, 1.55rem);
+  color: var(--gold-light);
+  letter-spacing: .12em;
+  text-shadow: 0 2px 8px rgba(0,0,0,.6);
+  line-height: 1.15;
+}
+
+#site-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.65rem, 1.3vw, .82rem);
+  color: var(--parchment-d);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  opacity: .75;
+  margin-top: 2px;
+}
+
+/* ── Main body (sidebar + map) ────────────────── */
+#main {
+  display: block;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Sidebar ──────────────────────────────────── */
+#sidebar { display: none; }
+
+.sidebar-section { padding: 14px 16px; border-bottom: 1px solid rgba(212,168,67,.2); }
+
+.sidebar-section:last-child { border-bottom: none; flex: 1; overflow-y: auto; }
+
+.sidebar-year {
+  /* Legacy sidebar year block is intentionally hidden; map-year-badge is the single visible year label. */
+  display: none;
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  opacity: .9;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-title::before,
+.section-title::after { content: ''; flex: 1; height: 1px; background: var(--gold); opacity: .3; }
+
+#play-btn {
+  position: absolute;
+  right: max(20px, calc(50% - 570px));
+  bottom: 120px;
+  z-index: 931;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  min-width: 88px;
+  margin: 0;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #2c1a0e, #4a2c15);
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  color: var(--gold-light);
+  font-family: 'Cinzel', serif;
+  font-size: .76rem;
+  letter-spacing: .12em;
+  cursor: pointer;
+  transition: background .2s, box-shadow .2s;
+}
+
+#play-btn:hover {
+  background: linear-gradient(135deg, #3d2210, #6b3e1f);
+  box-shadow: 0 0 10px rgba(212,168,67,.35);
+}
+
+#play-btn svg { flex-shrink: 0; }
+
+/* ── Stats ───────────────────────────────────── */
+#stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.stat-box {
+  flex: 1;
+  background: rgba(0,0,0,.16);
+  border: 1px solid rgba(212,168,67,.3);
+  border-radius: 4px;
+  padding: 7px 4px;
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffd59a;
+  line-height: 1;
+}
+
+.stat-lbl {
+  font-size: .65rem;
+  color: var(--parchment-d);
+  opacity: .85;
+  letter-spacing: .04em;
+  margin-top: 2px;
+}
+
+/* ── Category filters ────────────────────────── */
+#cat-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 7px 10px;
+  background: transparent;
+}
+
+.cat-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid rgba(212,168,67,.28);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'EB Garamond', serif;
+  font-size: .92rem;
+  color: #f3e0be;
+  text-align: left;
+  transition: background .15s, border-color .15s;
+  width: auto;
+}
+
+.cat-btn:hover {
+  background: rgba(212,168,67,.14);
+  border-color: rgba(212,168,67,.65);
+}
+
+.cat-btn.active {
+  background: rgba(212,168,67,.2);
+  border-color: rgba(212,168,67,.75);
+  color: #fff1d5;
+}
+
+.cat-btn.active .cat-check { opacity: 1; }
+
+.cat-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid rgba(0,0,0,.2);
+}
+
+.cat-label { font-size: .88rem; text-transform: capitalize; }
+.cat-count { display: none; }
+
+.cat-check {
+  color: #ffd59a;
+  font-size: .85rem;
+  opacity: 0;
+  transition: opacity .15s;
+}
+
+/* ── Village list ───────────────────────────── */
+#village-list { padding: 0; }
+
+.vl-item {
+  padding: 9px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(212,168,67,.15);
+  transition: background .15s;
+}
+
+.vl-item:hover { background: rgba(212,168,67,.13); }
+
+.vl-item.renamed { }
+
+.vl-name-cur {
+  font-family: 'EB Garamond', serif;
+  font-size: .92rem;
+  font-weight: 500;
+  color: #f8ead0;
+}
+
+.vl-name-old {
+  font-size: .75rem;
+  color: var(--red-wax);
+  font-style: italic;
+  margin-top: 1px;
+}
+
+.vl-meta {
+  font-size: .7rem;
+  color: var(--parchment-d);
+  opacity: .75;
+  margin-top: 2px;
+}
+
+/* ── Map area ─────────────────────────────────── */
+#map-wrap {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  background: var(--map-bg);
+}
+
+/* Leaflet overrides */
+.leaflet-container { font-family: 'EB Garamond', Georgia, serif; }
+.leaflet-tile-pane { filter: sepia(30%) brightness(0.95) saturate(0.85); }
+
+/* ── Map overlay label ───────────────────────── */
+#map-year-badge {
+  position: absolute;
+  bottom: 146px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  background: rgba(204, 98, 30, .95);
+  border: 1px solid rgba(255, 210, 146, .45);
+  border-radius: 14px;
+  padding: 8px 16px;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(0,0,0,.32);
+  pointer-events: none;
+  min-width: 90px;
+}
+
+#map-year-badge .badge-year {
+  font-family: 'Cinzel', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #fff5e4;
+  line-height: 1;
+}
+
+#map-year-badge .badge-label {
+  font-family: 'EB Garamond', serif;
+  font-size: .74rem;
+  color: #ffe6c3;
+  letter-spacing: .12em;
+  opacity: .92;
+}
+
+/* ── Custom Leaflet popup ────────────────────── */
+.leaflet-popup-content-wrapper {
+  background: var(--parchment);
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 6px 22px var(--shadow);
+  padding: 0;
+}
+
+.leaflet-popup-content { margin: 0; }
+.leaflet-popup-tip { background: var(--parchment); }
+
+.popup-inner {
+  padding: 14px 16px;
+  min-width: 200px;
+  max-width: 280px;
+}
+
+.popup-name {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.popup-old {
+  font-family: 'EB Garamond', serif;
+  font-size: .88rem;
+  color: var(--red-wax);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.popup-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  margin: 9px 0;
+}
+
+.popup-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+  font-size: .84rem;
+}
+
+.popup-row-label {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: .65;
+}
+
+.popup-row-value {
+  font-family: 'EB Garamond', serif;
+  color: var(--ink);
+  text-align: right;
+  max-width: 65%;
+}
+
+.popup-note {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: .8rem;
+  color: var(--ink-soft);
+  opacity: .75;
+  margin-top: 8px;
+  border-top: 1px solid rgba(139,105,20,.25);
+  padding-top: 8px;
+  line-height: 1.45;
+}
+
+.popup-year-tag {
+  display: inline-block;
+  background: var(--red-wax);
+  color: var(--parchment);
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  padding: 2px 8px;
+  border-radius: 2px;
+  margin-top: 6px;
+}
+
+/* ── Custom markers ──────────────────────────── */
+.village-marker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pin SVG is set via DivIcon */
+.marker-pin {
+  width: 30px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── Tooltip ─────────────────────────────────── */
+.leaflet-tooltip {
+  background: var(--parchment);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-family: 'EB Garamond', serif;
+  font-size: .88rem;
+  color: var(--ink);
+  box-shadow: 2px 3px 8px var(--shadow);
+  padding: 4px 8px;
+  white-space: nowrap;
+}
+
+.leaflet-tooltip-bottom::before {
+  border-bottom-color: var(--border);
+}
+
+/* ── Legend ──────────────────────────────────── */
+#legend {
+  position: absolute;
+  bottom: 92px;
+  left: 12px;
+  z-index: 900;
+  background: rgba(245,234,212,.92);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 10px 14px;
+  min-width: 140px;
+  box-shadow: 0 3px 14px var(--shadow);
+  backdrop-filter: blur(4px);
+}
+
+/* Bottom timeline overlay */
+#year-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  left: 50%;
+  width: min(1100px, calc(100% - 100px));
+  transform: translateX(-50%);
+  bottom: 92px;
+  z-index: 930;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #ffdb9f 0%, #ffdb9f var(--pct, 0%), rgba(56,37,20,.78) var(--pct, 0%));
+  border: 1px solid rgba(255, 213, 140, .75);
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.5), inset 0 1px 2px rgba(255,255,255,.15);
+  margin: 0;
+}
+
+#year-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff4db, #e27823 68%);
+  border: 3px solid #fff2d8;
+  box-shadow: 0 3px 12px rgba(0,0,0,.45);
+  cursor: pointer;
+  transition: transform .15s;
+}
+#year-slider::-webkit-slider-thumb:hover { transform: scale(1.08); }
+
+#year-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff4db, #e27823 68%);
+  border: 3px solid #fff2d8;
+  box-shadow: 0 3px 12px rgba(0,0,0,.45);
+  cursor: pointer;
+}
+
+#year-min, #year-max {
+  color: var(--ink-soft)
+}
+
+.year-range-labels {
+  position: absolute;
+  left: 50%;
+  width: min(1100px, calc(100% - 100px));
+  transform: translateX(-50%);
+  bottom: 46px;
+  z-index: 930;
+  display: flex;
+  justify-content: space-between;
+  color: rgba(255,255,255,.92);
+  font-size: 1.05rem;
+  font-family: 'EB Garamond', serif;
+  line-height: 1;
+  text-shadow: 0 2px 7px rgba(0,0,0,.55);
+  pointer-events: none;
+}
+
+#top-panel {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  width: min(980px, calc(100% - 220px));
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 940;
+  box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  background: rgba(54, 34, 18, .84);
+  border: 1px solid rgba(212,168,67,.35);
+}
+
+#maps-btn {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  z-index: 940;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(59, 39, 20, .92);
+  color: #e8d5b5;
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  padding: 12px 20px;
+}
+
+#maps-btn::after {
+  content: '›';
+  margin-left: 10px;
+}
+
+#feedback-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: right top;
+  z-index: 940;
+  border: 0;
+  border-radius: 6px 6px 0 0;
+  background: rgba(59, 39, 20, .92);
+  color: #e8d5b5;
+  font-family: 'Cinzel', serif;
+  font-size: .95rem;
+  padding: 8px 14px;
+}
+
+#hidden-data-ui {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.legend-title {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  opacity: .65;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: .8rem;
+  color: var(--ink-soft);
+}
+
+.legend-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,.2);
+  flex-shrink: 0;
+}
+
+.legend-status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(139,105,20,.25);
+  font-size: .78rem;
+  color: var(--ink-soft);
+}
+
+.legend-icon-old { font-size: .95rem; }
+.legend-icon-new { font-size: .95rem; }
+
+/* ── Scrollbar ────────────────────────────────── */
+#sidebar ::-webkit-scrollbar { width: 5px; }
+#sidebar ::-webkit-scrollbar-track { background: var(--parchment-d); }
+#sidebar ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Mobile responsive ────────────────────────── */
+@media (max-width: 640px) {
+  #top-panel { width: calc(100% - 120px); }
+  #year-slider { width: calc(100% - 36px); bottom: 82px; }
+  .year-range-labels { width: calc(100% - 36px); bottom: 44px; font-size: .95rem; }
+  #map-year-badge { bottom: 128px; }
+  #play-btn { right: 12px; bottom: 110px; }
+  #legend { display: none; }
+}
+
+@media (max-width: 480px) {
+  #top-panel { width: calc(100% - 16px); top: 8px; }
+  #maps-btn, #feedback-btn { display: none; }
+  #year-slider { width: calc(100% - 20px); bottom: 74px; }
+  .year-range-labels { width: calc(100% - 20px); bottom: 40px; font-size: .82rem; }
+  #map-year-badge { bottom: 116px; transform: translateX(-50%) scale(.86); transform-origin: center; }
+  #play-btn { bottom: 101px; transform: scale(.86); transform-origin: right bottom; }
+}
+
+/* ── Animations ──────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.leaflet-marker-icon { animation: fadeIn .3s ease-out; }
+
+/* Renamed flash */
+@keyframes waxSeal {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  70%  { transform: scale(.92); }
+  100% { transform: scale(1); }
+}
+
+.marker-renamed { animation: waxSeal .45s ease-out; }

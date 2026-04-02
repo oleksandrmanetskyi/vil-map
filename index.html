@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ukrainian Village Names — Historical Map</title>
+  <meta name="description" content="Interactive historical map showing how Ukrainian village and city names changed over time." />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ── Header ──────────────────────────────────────────── -->
+  <header id="header">
+    <div id="header-text">
+      <div id="site-title">Chronicles of Ukrainian Place Names</div>
+      <div id="site-subtitle">An Interactive Historical Cartography</div>
+    </div>
+  </header>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <div id="main">
+
+    <!-- ── Map ────────────────────────────────────────────── -->
+    <div id="map-wrap">
+      <div id="top-panel">
+        <div id="cat-filters"></div>
+      </div>
+
+      <div id="map"></div>
+
+      <!-- Year badge overlay -->
+      <div id="map-year-badge" aria-live="polite" aria-atomic="true">
+        <div class="badge-year" id="badge-year">1938</div>
+        <div class="badge-label">A.D.</div>
+      </div>
+
+      <input id="year-slider" type="range" min="1938" max="2020" value="1938"
+             aria-label="Select year" />
+
+      <div class="year-range-labels">
+        <span id="year-min">1940</span>
+        <span id="year-max">1950</span>
+      </div>
+
+      <button id="play-btn" type="button" aria-label="Animate through years">
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+          <polygon points="1,1 11,6 1,11" fill="currentColor"/>
+        </svg>
+        Анімувати
+      </button>
+
+      <!-- Legend -->
+      <div id="legend" role="complementary" aria-label="Map legend">
+        <div class="legend-title">Легенда</div>
+        <div id="legend-body"></div>
+        <div class="legend-status-row">
+          <span style="color:var(--red-wax); font-size:1rem">●</span>
+          <span>Перейменовано</span>
+        </div>
+        <div class="legend-status-row">
+          <span style="color:var(--accent-blue); font-size:.85rem">●</span>
+          <span style="font-style:italic">Буде перейменовано</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="hidden-data-ui" aria-hidden="true">
+      <div id="stats">
+        <div id="stat-total">0</div>
+        <div id="stat-renamed">0</div>
+      </div>
+      <div id="village-list"></div>
+    </div>
+
+  </div><!-- /#main -->
+</div><!-- /#app -->
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<!-- Data -->
+<script src="data.js"></script>
+
+<!-- App logic -->
+<script src="app.js"></script>
+
+</body>
+</html>

@@ -61,23 +61,23 @@ function buildPopup(v, currentYear) {
   const shownName = isRenamed ? v.newName : v.oldName;
   const otherName = isRenamed ? v.oldName : v.newName;
   const otherLabel = isRenamed ? 'Попередня назва' : 'Майбутня назва';
-  const yearLabel  = isRenamed ? 'Перейменовано в' : 'Буде перейменовано в';
+  const yearLabel  = isRenamed ? 'Перейменовано в' : 'Перейменують у';
 
   return `<div class="popup-inner">
     <div class="popup-name">${esc(shownName)}</div>
     ${isRenamed && v.oldName !== v.newName
       ? `<div class="popup-old">formerly: ${esc(v.oldName)}</div>`
       : (!isRenamed && v.oldName !== v.newName
-        ? `<div class="popup-old" style="color:var(--accent-blue)">will become: ${esc(v.newName)}</div>`
+        ? `<div class="popup-old" style="color:var(--accent-blue)">майбутня назва: ${esc(v.newName)}</div>`
         : '')
     }
     <div class="popup-divider"></div>
     <div class="popup-row">
-      <span class="popup-row-label">Region</span>
+      <span class="popup-row-label">Тип</span>
       <span class="popup-row-value">${esc(v.region)}</span>
     </div>
     <div class="popup-row">
-      <span class="popup-row-label">Category</span>
+      <span class="popup-row-label">Категорія</span>
       <span class="popup-row-value" style="text-transform:capitalize">${esc(categoriesOf(v).join(', '))}</span>
     </div>
     <div class="popup-row">
@@ -342,7 +342,7 @@ function setPlaying(playing) {
       updateYearDisplay(y);
       renderMarkers();
       renderVillageList();
-    }, 600);
+    }, 1000);
   } else {
     clearInterval(state.playTimer);
     state.playTimer = null;
